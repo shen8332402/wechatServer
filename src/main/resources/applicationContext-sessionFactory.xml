@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+<!-- 配置hibernate session工厂,需添加 spring-orm -->
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="hibernateProperties">
+            <props>
+            <!-- hbm2ddl.auto: 生成表结构的策略配置
+             update(最常用的取值): 如果当前数据库中不存在表结构,那么自动创建表结构. 
+                     如果存在表结构,并且表结构与实体一致,那么不做修改
+                     如果存在表结构,并且表结构与实体不一致,那么会修改表结构.会保留原有列.
+             create(很少):无论是否存在表结构.每次启动Hibernate都会重新创建表结构.(数据会丢失)
+             create-drop(极少): 无论是否存在表结构.每次启动Hibernate都会重新创建表结构.每次Hibernate运行结束时,删除表结构.
+             validate(很少):不会自动创建表结构.也不会自动维护表结构.Hibernate只校验表结构. 如果表结构不一致将会抛出异常.
+          -->
+                <!-- <prop key="hibernate.hbm2ddl.auto">update</prop> -->
+                <!-- 数据库方言配置 
+         org.hibernate.dialect.MySQLDialect (选择最短的)
+         -->
+                <prop key="hibernate.dialect">org.hibernate.dialect.OracleDialect</prop>
+                 <!-- show_sql: 操作数据库时,会 向控制台打印sql语句 -->
+                <prop key="hibernate.show_sql">true</prop>
+                <!-- format_sql: 打印sql语句前,会将sql语句先格式化  -->
+                <prop key="hibernate.format_sql">true</prop>
+            </props>
+        </property>
+
+        <!-- 自动扫描注解方式配置的hibernate类文件 -->
+        <!-- <property name="packagesToScan">
+            <list>
+                <value>com.rambo.sdh.pojo</value>
+            </list>
+        </property> -->
+        
+        <property name="mappingLocations">
+        <list>
+				<value>classpath:org/test/**/*.hbm.xml</value>
+			</list>
+        </property>
+        
+    </bean>
+    
+    <!-- 配置事务管理器 -->
+    <bean name="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <!-- 1)基于 <tx> 和 <aop> 命名空间的声明式事务管理：transaction-manager指定事务管理器为transactionManager- -->
+    <tx:advice id="transactionAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="add*" propagation="REQUIRED" rollback-for="Exception"/>
+            <tx:method name="save*" propagation="REQUIRED" rollback-for="Exception"/>
+            <tx:method name="update*" propagation="REQUIRED" rollback-for="Exception"/>
+            <tx:method name="edit*" propagation="REQUIRED" rollback-for="Exception"/>
+            <tx:method name="modify*" propagation="REQUIRED" rollback-for="Exception"/>
+            <tx:method name="delete*" propagation="REQUIRED" rollback-for="Exception"/>
+            <tx:method name="remove*" propagation="REQUIRED" rollback-for="Exception"/>
+            <tx:method name="get*" propagation="NOT_SUPPORTED" read-only="true"/>
+            <tx:method name="find*" propagation="NOT_SUPPORTED" read-only="true"/>
+            <tx:method name="list*" propagation="NOT_SUPPORTED" read-only="true"/>
+        </tx:attributes>
+    </tx:advice>
+    <!-- <aop:config>
+        <aop:pointcut id="transactionPointcut" expression="execution(* com.rambo.sdh.*.dao.impl.*.*(..))"/>
+        <aop:advisor pointcut-ref="transactionPointcut" advice-ref="transactionAdvice"/>
+    </aop:config> -->
+
+    <!--2)基于 @Transactional 的方式将声明式事务管理：激活启用事务相关处理 Bean 配置-->
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+    </beans>

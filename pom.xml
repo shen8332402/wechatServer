@@ -1,0 +1,244 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>wechatServer</groupId>
+  <artifactId>wechatServer</artifactId>
+  <packaging>war</packaging>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>wechatServer Maven Webapp</name>
+  <url>http://maven.apache.org</url>
+  <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.version>1.8</java.version>
+         <!-- spring版本号 -->  
+  <spring.version>4.3.14.RELEASE</spring.version>
+  <hibernate.version>4.3.11.Final</hibernate.version>
+    </properties>
+  <dependencies>
+   <!-- oracle -->
+    <dependency>
+    <groupId>com.oracle</groupId>
+    <artifactId>ojdbc6</artifactId>
+    <version>11.2.0.2.0</version>
+	</dependency>
+	<!--spring相关-->
+
+	<!-- https://mvnrepository.com/artifact/org.springframework/spring-messaging -->
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-messaging</artifactId>
+    <version>4.3.14.RELEASE</version>
+</dependency>
+	
+	<!-- https://mvnrepository.com/artifact/org.springframework/spring-web -->
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-web</artifactId>
+    <version>${spring.version}</version>
+</dependency>
+	
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-aop -->
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-aop</artifactId>
+    <version>${spring.version}</version>
+</dependency>
+<dependency>
+  <groupId>org.springframework</groupId>
+  <artifactId>spring-core</artifactId>
+  <version>${spring.version}</version>
+  <exclusions>
+  	<exclusion>
+  		<groupId>commons-logging</groupId>
+  		<artifactId>commons-logging</artifactId>
+  	</exclusion>
+  </exclusions>
+	</dependency>
+	<dependency>
+  <groupId>org.springframework</groupId>
+  <artifactId>spring-context</artifactId>
+  <version>${spring.version}</version>
+  <exclusions>
+  	<exclusion>
+  		<groupId>org.springframework</groupId>
+  		<artifactId>spring-beans</artifactId>
+  	</exclusion>
+  	<exclusion>
+  		<groupId>org.springframework</groupId>
+  		<artifactId>spring-expression</artifactId>
+  	</exclusion>
+  	<exclusion>
+  		<groupId>org.springframework</groupId>
+  		<artifactId>spring-core</artifactId>
+  	</exclusion>
+  	<exclusion>
+  		<groupId>org.springframework</groupId>
+  		<artifactId>spring-aop</artifactId>
+  	</exclusion>
+  </exclusions>
+	</dependency>
+	<dependency>
+  <groupId>org.springframework</groupId>
+  <artifactId>spring-beans</artifactId>
+  <version>${spring.version}</version>
+  <exclusions>
+  	<exclusion>
+  		<groupId>org.springframework</groupId>
+  		<artifactId>spring-core</artifactId>
+  	</exclusion>
+  </exclusions>
+	</dependency>
+	<dependency>
+  <groupId>org.springframework</groupId>
+  <artifactId>spring-jdbc</artifactId>
+  <version>${spring.version}</version>
+  <exclusions>
+  	<exclusion>
+  		<groupId>org.springframework</groupId>
+  		<artifactId>spring-beans</artifactId>
+  	</exclusion>
+  	<exclusion>
+  		<groupId>org.springframework</groupId>
+  		<artifactId>spring-core</artifactId>
+  	</exclusion>
+  </exclusions>
+	</dependency>
+	<dependency>
+  <groupId>org.springframework</groupId>
+  <artifactId>spring-tx</artifactId>
+  <version>${spring.version}</version>
+  <exclusions>
+  	<exclusion>
+  		<groupId>org.springframework</groupId>
+  		<artifactId>spring-beans</artifactId>
+  	</exclusion>
+  	<exclusion>
+  		<groupId>org.springframework</groupId>
+  		<artifactId>spring-core</artifactId>
+  	</exclusion>
+  </exclusions>
+</dependency>
+<dependency>
+  <groupId>org.springframework</groupId>
+  <artifactId>spring-orm</artifactId>
+  <version>${spring.version}</version>
+  <exclusions>
+  	<exclusion>
+  		<groupId>org.springframework</groupId>
+  		<artifactId>spring-beans</artifactId>
+  	</exclusion>
+  	<exclusion>
+  		<groupId>org.springframework</groupId>
+  		<artifactId>spring-core</artifactId>
+  	</exclusion>
+  </exclusions>
+</dependency>
+<!-- https://mvnrepository.com/artifact/org.springframework/spring-webmvc -->
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-webmvc</artifactId>
+    <version>${spring.version}</version>
+    <exclusions>
+    	<exclusion>
+    		<groupId>org.springframework</groupId>
+    		<artifactId>spring-context</artifactId>
+    	</exclusion>
+    	<exclusion>
+    		<groupId>org.springframework</groupId>
+    		<artifactId>spring-beans</artifactId>
+    	</exclusion>
+    	<exclusion>
+    		<groupId>org.springframework</groupId>
+    		<artifactId>spring-core</artifactId>
+    	</exclusion>
+    	<exclusion>
+    		<groupId>org.springframework</groupId>
+    		<artifactId>spring-aop</artifactId>
+    	</exclusion>
+    	<exclusion>
+    		<groupId>org.springframework</groupId>
+    		<artifactId>spring-web</artifactId>
+    	</exclusion>
+    </exclusions>
+</dependency>
+
+	<dependency>
+  <groupId>org.apache.commons</groupId>
+  <artifactId>commons-lang3</artifactId>
+  <version>3.3.2</version>
+</dependency>
+<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-core -->
+<dependency>
+    <groupId>org.hibernate</groupId>
+    <artifactId>hibernate-core</artifactId>
+    <version>${hibernate.version}</version>
+</dependency>
+<dependency>
+  <groupId>log4j</groupId>
+  <artifactId>log4j</artifactId>
+  <version>1.2.16</version>
+</dependency>
+<dependency>
+  <groupId>org.slf4j</groupId>
+  <artifactId>slf4j-api</artifactId>
+  <version>1.6.1</version>
+</dependency> 
+<!-- https://mvnrepository.com/artifact/com.alibaba/druid -->
+<dependency>
+    <groupId>com.alibaba</groupId>
+    <artifactId>druid</artifactId>
+    <version>1.1.6</version>
+</dependency>
+<dependency>
+  <groupId>javax.servlet</groupId>
+  <artifactId>servlet-api</artifactId>
+  <version>3.0-alpha-1</version>
+  <scope>provided</scope>
+</dependency>
+<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core -->
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-core</artifactId>
+    <version>2.8.9</version>
+</dependency>
+<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.8.9</version>
+</dependency>
+<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-annotations -->
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-annotations</artifactId>
+    <version>2.8.9</version>
+</dependency>
+<!--json-lib-->    
+<dependency>    
+  <groupId>net.sf.json-lib</groupId>    
+  <artifactId>json-lib</artifactId>    
+  <version>2.4</version>    
+  <classifier>jdk15</classifier>    
+</dependency>  
+<dependency>
+  <groupId>com.alibaba</groupId>
+  <artifactId>fastjson</artifactId>
+  <version>1.2.24</version>
+</dependency>
+<!-- https://mvnrepository.com/artifact/org.aspectj/aspectjweaver -->
+<dependency>
+    <groupId>org.aspectj</groupId>
+    <artifactId>aspectjweaver</artifactId>
+    <version>1.8.10</version>
+</dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+  <build>
+    <finalName>wechatServer</finalName>
+  </build>
+</project>
