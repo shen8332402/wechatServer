@@ -1,6 +1,12 @@
 package org.test.dao.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.slf4j.LoggerFactory;
 import org.hibernate.SessionFactory;
+import org.hibernate.annotations.Entity;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -17,16 +23,20 @@ public class TestDaoImpl extends HibernateDaoSupport implements TestDao {
 	@Qualifier(value="jdbcTemplate")
 	private JdbcTemplate jdbcTemplate;
 	
+	private Logger logger=LoggerFactory.getLogger(TestDaoImpl.class);
+	
 	@Autowired
-	public void setSessionFactoryOverride(SessionFactory sessionFactory)
+	public void setSession(SessionFactory sessionFactory)
 	{
 	    super.setSessionFactory(sessionFactory);
 	}
 
-	public Test_Table getTestData() {
+	public List<Test_Table> getTestData() {
+		List<Test_Table> list=new ArrayList<Test_Table>();
 		String hql="from Test_Table a ";
-		Test_Table test_Table=(Test_Table)this.getHibernateTemplate().find(hql).get(0);
-		return test_Table;
+		list=(List<Test_Table>) this.getHibernateTemplate().find(hql);
+		logger.info("/testDaoImpl","查询test信息成功");
+		return list;
 	}
 
 }

@@ -1,5 +1,7 @@
 package org.test.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -13,7 +15,7 @@ public class TestServiceImpl implements TestService {
 	@Autowired
 	@Qualifier(value="TestDaoImpl")
 	private TestDao testDao;
-	public Test_Table getTestData() {
+	public List<Test_Table> getTestData() {
 		return testDao.getTestData();
 	}
 

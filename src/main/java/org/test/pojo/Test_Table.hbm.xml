@@ -5,6 +5,7 @@
 	<class name="org.test.pojo.Test_Table" table="test_Table">
 		<id name="test_id" type="java.lang.Integer" >
 			<column name="test_id"/>
+			<!-- 主键自定义，并非数据库生成 -->
 			<generator class="assigned"></generator>
 		</id>
 		<property name="test_context" type="string">

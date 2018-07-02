@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="org.application.article.pojo.Article" table="ARTICLE">
+		<id name="article_id" type="java.lang.Integer" >
+			<column name="article_id"/>
+			<generator class="sequence">
+             <param name="sequence">id_auto_add</param><!--id_auto_add为sequence名称  -->
+            </generator>
+		</id>
+		<property name="article_content" type="string">
+		<column name="article_content"/>
+		</property>
+		<property name="article_title" type="string">
+		<column name="article_title"/>
+		</property>
+		<property name="article_author" type="string">
+		<column name="article_author"/>
+		</property>
+		<property name="article_creator" type="java.lang.Integer">
+		<column name="article_creator"/>
+		</property>
+		<property name="article_cre_time" type="java.util.Date">
+		<column name="article_cre_time"/>
+		</property>
+		<property name="article_is_use" type="string">
+		<column name="article_is_use"/>
+		</property>
+		<property name="article_abstract" type="string">
+		<column name="article_abstract"/>
+		</property>
+		<property name="article_cover_pic" type="string">
+		<column name="article_cover_pic"/>
+		</property>
+		<property name="article_content_pic" type="string">
+		<column name="article_content_pic"/>
+		</property>
+		<property name="article_alter_num" type="java.lang.Integer">
+		<column name="article_alter_num"/>
+		</property>
+		<property name="article_look_num" type="java.lang.Integer">
+		<column name="article_look_num"/>
+		</property>
+		<property name="update_time" type="java.util.Date">
+		<column name="update_time"/>
+		</property>
+		<property name="is_del" type="string">
+		<column name="is_del"/>
+		</property>
+	</class>
+</hibernate-mapping>

@@ -18,7 +18,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
              create-drop(极少): 无论是否存在表结构.每次启动Hibernate都会重新创建表结构.每次Hibernate运行结束时,删除表结构.
              validate(很少):不会自动创建表结构.也不会自动维护表结构.Hibernate只校验表结构. 如果表结构不一致将会抛出异常.
           -->
-                <!-- <prop key="hibernate.hbm2ddl.auto">update</prop> -->
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
                 <!-- 数据库方言配置 
          org.hibernate.dialect.MySQLDialect (选择最短的)
          -->
@@ -39,7 +39,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
         
         <property name="mappingLocations">
         <list>
-				<value>classpath:org/test/**/*.hbm.xml</value>
+				<value>classpath*:org/application/**/*.hbm.xml</value>
 			</list>
         </property>
         
@@ -63,6 +63,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
             <tx:method name="get*" propagation="NOT_SUPPORTED" read-only="true"/>
             <tx:method name="find*" propagation="NOT_SUPPORTED" read-only="true"/>
             <tx:method name="list*" propagation="NOT_SUPPORTED" read-only="true"/>
+            <tx:method name="*" read-only="true" />
         </tx:attributes>
     </tx:advice>
     <!-- <aop:config>
