@@ -1,10 +1,12 @@
 package org.application.article.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.application.article.dao.ArticleDao;
 import org.application.article.pojo.Article;
 import org.application.article.service.ArticleService;
+import org.frame.paging.model.PagingModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -36,12 +38,13 @@ public class ArticleServiceImpl implements ArticleService{
 		return articleDao.upArticle(article);
 	}
 
-	public List<Article> qryArticle() {
-		return articleDao.qryArticle();
-	}
 
 	public Article qryArticleById(Integer article_id) {
 		return articleDao.qryArticleById(article_id);
+	}
+
+	public PagingModel<Map<String, Object>> qryArticle(Map<String, String> para) {
+		return articleDao.qryArticle(para);
 	}
 
 }

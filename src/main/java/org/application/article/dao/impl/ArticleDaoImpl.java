@@ -2,9 +2,12 @@ package org.application.article.dao.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.application.article.dao.ArticleDao;
 import org.application.article.pojo.Article;
+import org.frame.paging.model.PagingModel;
+import org.frame.paging.service.PageSqlParser;
 import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,6 +34,10 @@ public class ArticleDaoImpl extends HibernateDaoSupport implements ArticleDao{
 	@Autowired
 	@Qualifier(value="jdbcTemplate")
 	private JdbcTemplate jdbcTemplate;
+	
+	@Autowired
+	@Qualifier(value="pageSqlParserImpl")
+	private PageSqlParser pageSqlParser;
 	
 	private Logger logger=LoggerFactory.getLogger(TestDaoImpl.class);
 	
@@ -81,16 +88,34 @@ public class ArticleDaoImpl extends HibernateDaoSupport implements ArticleDao{
 		return flag;
 	}
 
-	public List<Article> qryArticle() {
-		String hql="from Article a where a.is_del=? and a.article_is_use=? ";
-		List<Article> articles=new ArrayList<Article>();
-		try {
-			articles=(List<Article>) this.getHibernateTemplate().find(hql,"0","1");
-			logger.info("查询文章列表成功");
-		} catch (Exception e) {
-			logger.error("操作失败");
+	public PagingModel<Map<String, Object>> qryArticle(Map<String,  String> para) {
+		
+		PagingModel pagingModel=null;
+		//每页数量
+		String pageSize1 = para.get("pageSize");
+		Integer pageSize=0;
+		if (pageSize1 != null && pageSize1.length() > 0) {
+			pageSize = Integer.valueOf(pageSize1);
 		}
-		return articles;
+		// 当前页数
+		Integer pageNo = 1;
+		String pageNo1 = para.get("start");
+		if (pageNo1 != null && pageNo1.length() > 0) {
+			pageNo = Integer.valueOf(pageNo1) / pageSize + 1;
+		}
+		// 总数
+		String sqlCount = "select count(1) from ARTICLE ";//+ qryListWhere(para);
+		logger.info(sqlCount);
+		int Total = jdbcTemplate.queryForObject(sqlCount, Integer.class);
+		if(Total == 0)
+			return new PagingModel();
+		String sqlData="select * from ARTICLE";
+		String pageSql=pageSqlParser.parsePageSQL(sqlData, pageSize, Total, pageNo);
+		List<Map<String, Object>> dataList=jdbcTemplate.queryForList(pageSql);
+		Integer totalPage=(Total%pageSize==0)?(Total%pageSize):(Total%pageSize+1);
+		pagingModel=new PagingModel<Map<String, Object>>(pageNo, pageSize, Total, dataList,totalPage);
+		logger.info("-------------"+pageSql);
+		return pagingModel;
 	}
 
 	public Article qryArticleById(Integer article_id) {

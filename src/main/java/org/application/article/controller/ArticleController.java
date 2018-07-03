@@ -2,11 +2,16 @@ package org.application.article.controller;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.application.article.pojo.Article;
 import org.application.article.service.ArticleService;
+import org.frame.paging.model.PagingModel;
+import org.frame.util.HttpRequestUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +21,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.alibaba.druid.util.HttpClientUtils;
 
 /**
  * 
@@ -58,8 +65,10 @@ public class ArticleController {
 		return articleService.upArticle(article);
 	}
 	@GetMapping(value="qryArticle")
-	public List<Article> qryArticle(){
-		return articleService.qryArticle();
+	public PagingModel<Map<String, Object>> qryArticle(HttpServletRequest request,HttpServletResponse response){
+		Map<String, String> para=HttpRequestUtil.getParameter(request);
+		PagingModel<Map<String, Object>> pagingModel=new PagingModel<Map<String, Object>>();
+		return articleService.qryArticle(para);
 	}
 	@GetMapping(value="qryArticleById")
 	public Article qryArticleById(Integer article_id){

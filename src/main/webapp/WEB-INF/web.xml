@@ -18,7 +18,7 @@
         <param-value>classpath:applicationContext-sessionFactory.xml,
         		     classpath:spring-database.xml,
         			 classpath:spring.xml,
-        			 classpath:applicationContext-JdbcTemplate.xml
+        			 classpath*:applicationContext-*.xml
        	</param-value>
     </context-param>
     <filter>
@@ -65,7 +65,8 @@
     <param-value>classpath:log4j.properties</param-value>
 </context-param>
 <listener>
-    <listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
+    <listener-class>org.springframework.web.util.Log4jConfigListener
+    				</listener-class>
 </listener>
 
 <!-- Write operations are not allowed in read-only mode (FlushMode.MANUAL): Turn your Session into FlushMode.COMMIT/AUTO or remove 'readOnly' marker from transaction definition. -->
